@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "destiny-travel-like": {
+    "austral-ng-salutator": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/destiny-travel-like",
+            "outputPath": "dist/austral-ng-salutator",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -63,18 +63,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "destiny-travel-like:build"
+            "browserTarget": "austral-ng-salutator:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "destiny-travel-like:build:production"
+              "browserTarget": "austral-ng-salutator:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "destiny-travel-like:build"
+            "browserTarget": "austral-ng-salutator:build"
           }
         },
         "test": {
@@ -111,15 +111,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "destiny-travel-like:serve"
+            "devServerTarget": "austral-ng-salutator:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "destiny-travel-like:serve:production"
+              "devServerTarget": "austral-ng-salutator:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "destiny-travel-like"
+  "defaultProject": "austral-ng-salutator"
 }
