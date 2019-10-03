@@ -8,17 +8,17 @@ import {DestinyTravel} from './../models/destiny-travel.model';
 })
 export class DestinyListComponent implements OnInit {
 
-  destinations: string[];
+  destinations: DestinyTravel[];
   
   constructor() {
-    this.destinations = ['Barranquilla', 'Lima', 'Buenos Aires', 'Barcelona'];
+    this.destinations = [];
   }
 
   ngOnInit() {
   }
 
   save(name: string, url: string): boolean {
-    console.log(new DestinyTravel(name, url));
+    this.destinations.push(new DestinyTravel(name, url));
     return false;
   }
 
