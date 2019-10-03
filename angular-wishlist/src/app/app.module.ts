@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { DestinyTravelComponent } from './destiny-travel/destiny-travel.component';
+import { DestinyListComponent } from './destiny-list/destiny-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DestinyTravelComponent
+    DestinyTravelComponent,
+    DestinyListComponent
   ],
   imports: [
     BrowserModule

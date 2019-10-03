@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-destiny-travel',
@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DestinyTravelComponent implements OnInit {
 
-  constructor() { }
+  @Input() name: string; 
+  constructor() {}
 
   ngOnInit() {
   }
