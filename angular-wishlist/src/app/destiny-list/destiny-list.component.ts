@@ -22,4 +22,9 @@ export class DestinyListComponent implements OnInit {
     return false;
   }
 
+  selected(d: DestinyTravel){
+    this.destinations.forEach(function(x){x.setSelected(false);});
+    d.setSelected(true);
+  }
+
 }

@@ -1,9 +1,10 @@
 export class DestinyTravel {
-    name:string;
-    imageUrl:string;
-
-    constructor(n:string, u:string){
-        this.name = n;
-        this.imageUrl = u;
+    private selected: boolean;
+    constructor(public name: string, public u: string) { }
+    isSelected(): boolean {
+        return this.selected;
+    }
+    setSelected(s: boolean) {
+        this.selected = s;
     }
 }
