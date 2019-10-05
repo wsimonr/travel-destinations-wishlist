@@ -2,11 +2,11 @@
     <div class="card-img">
         <img src="https://placeimg.com/380/230/nature" alt="">
         <span>
-            <h4>{{destiny.name}}</h4>
+            <h4>{{position}}</h4>
         </span>
     </div>
     <div class="card-desc">
-        <h3>{{position}}</h3>
+        <h3>{{destiny.name}}</h3>
         <p>Services</p>
         <ul>
             <li *ngFor="let s of destiny.services">
@@ -20,5 +20,6 @@
         <span *ngIf="destiny.isSelected()">
              <span ngNonBindable>- PREFERIDO -</span> 
         </span>
+        <a [routerLink] = "['/destiny']">See Detail</a>
     </div>
 </div> 
