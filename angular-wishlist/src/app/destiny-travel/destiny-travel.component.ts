@@ -8,6 +8,7 @@ import { DestinyTravel } from '../models/destiny-travel.model';
 })
 export class DestinyTravelComponent implements OnInit {
   @Input() destiny: DestinyTravel;
+  @Input('idx') position: number;
   @HostBinding('attr.class') cssClass = "col-md-4";
   @Output() clicked: EventEmitter<DestinyTravel>;
 

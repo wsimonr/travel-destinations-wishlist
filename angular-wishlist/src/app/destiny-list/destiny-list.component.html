@@ -29,8 +29,9 @@
 
     <div class="row row-flex">
         <app-destiny-travel 
-            *ngFor="let d of destinations" 
+            *ngFor="let d of destinations; let i=index" 
             [destiny]="d"
+            [idx]="i+1"
             (clicked)="selected($event)"
         ></app-destiny-travel>
     </div>

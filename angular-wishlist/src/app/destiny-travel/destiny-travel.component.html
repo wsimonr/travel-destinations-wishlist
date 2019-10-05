@@ -6,10 +6,19 @@
         </span>
     </div>
     <div class="card-desc">
-        <h3>{{destiny.name}}</h3>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam, voluptatum! Dolor quo, perspiciatis
-            voluptas totam</p>
+        <h3>{{position}}</h3>
+        <p>Services</p>
+        <ul>
+            <li *ngFor="let s of destiny.services">
+                <span [ngSwitch]="s">
+                    <i *ngSwitchCase="'breakfast'" style="color:red;">{{s}}</i>
+                    <i *ngSwitchDefault>{{s}}</i>
+                </span>
+            </li>
+        </ul>
         <a href="#" class="btn-card" (click)="go()">Go!</a>
-        <span [style.display]="destiny.isSelected() ? '' : 'none'"> -PREFERIDO- </span>
+        <span *ngIf="destiny.isSelected()">
+             <span ngNonBindable>- PREFERIDO -</span> 
+        </span>
     </div>
 </div> 
