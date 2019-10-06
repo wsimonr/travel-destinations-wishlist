@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { DestinyTravelComponent } from './destiny-travel/destiny-travel.component';
 import { DestinyListComponent } from './destiny-list/destiny-list.component';
 import { DestinyDetailComponent } from './destiny-detail/destiny-detail.component';
+import { FormDestinyTravelComponent } from './form-destiny-travel/form-destiny-travel.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch: 'full'},
@@ -19,7 +20,8 @@ const routes: Routes = [
     AppComponent,
     DestinyTravelComponent,
     DestinyListComponent,
-    DestinyDetailComponent
+    DestinyDetailComponent,
+    FormDestinyTravelComponent
   ],
   imports: [
     BrowserModule,
