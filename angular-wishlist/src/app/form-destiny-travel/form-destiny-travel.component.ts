@@ -1,6 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DestinyTravel } from '../models/destiny-travel.model';
 import { FormGroup, FormBuilder, Validators, FormControl, ValidatorFn } from '@angular/forms';
+import { fromEvent } from 'rxjs';
+import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { ajax, AjaxResponse } from 'rxjs/ajax';
 
 @Component({
   selector: 'app-form-destiny-travel',
@@ -12,6 +15,7 @@ export class FormDestinyTravelComponent implements OnInit {
   @Output() onItemAdded: EventEmitter<DestinyTravel>;
   fg: FormGroup;
   minLength = 3;
+  SearchResults: string[];
 
   constructor(fb: FormBuilder) {
     this.onItemAdded = new EventEmitter();
@@ -30,6 +34,25 @@ export class FormDestinyTravelComponent implements OnInit {
   }
 
   ngOnInit() {
+
+  }
+
+  ngAfterViewInit() {
+    const elemName = <HTMLInputElement>document.getElementById('name');
+    fromEvent(elemName, 'input')
+      .pipe(
+        map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
+        filter(text => text.length > 2),
+        debounceTime(200),
+        distinctUntilChanged(),
+        //ToDo: Create the web service
+        switchMap(() => ajax('/assets/data.json'))
+        //ToFix
+      ).subscribe(AjaxResponse => {
+        console.log(AjaxResponse);
+        console.log(AjaxResponse.response);
+        this.SearchResults = AjaxResponse.response;
+      });
   }
 
   save(name: string, url: string): boolean {
