@@ -10,10 +10,16 @@ import { DestinationsApiClient } from '../models/destinations-api-client.model';
 export class DestinyListComponent implements OnInit {
 
   @Output() onItemAdded: EventEmitter<DestinyTravel>;
+  updates: string[];
 
   constructor(private destinationsAPIClient: DestinationsApiClient) {
-
     this.onItemAdded = new EventEmitter();
+    this.updates = [];
+    this.destinationsAPIClient.suscribeOnChange((d: DestinyTravel) => {
+      if (d != null) {
+        this.updates.push(d.name + ' has been chosen.' )
+      }
+    });
   }
 
   ngOnInit() {
@@ -25,8 +31,7 @@ export class DestinyListComponent implements OnInit {
   }
 
   selected(e: DestinyTravel) {
-    this.destinationsAPIClient.getAll().forEach(x => x.setSelected(false));
-    e.setSelected(true);
+    this.destinationsAPIClient.select(e);
   }
 
 }
