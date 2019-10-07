@@ -9,17 +9,7 @@
                     <h3 class="mb-0">Wishlist</h3>
                 </div>
                 <div class="card-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="nombre">Name</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Enter name..." #name>
-                        </div>
-                        <div class="form-group">
-                            <label for="Imagen Url">Url Image</label>
-                            <input type="text" class="form-control" id="imagenUrl" placeholder="Enter url..."#url>
-                        </div>
-                        <button type="submit" class="btn btn-primary" (click)="save(name.value, url.value)">Save!</button>
-                    </form>
+                    <app-form-destiny-travel (onItemAdded)="added($event)"></app-form-destiny-travel>
                 </div>
             </div>
         </div>
@@ -29,10 +19,10 @@
 
     <div class="row row-flex">
         <app-destiny-travel 
-            *ngFor="let d of destinations; let i=index" 
-            [destiny]="d"
-            [idx]="i+1"
-            (clicked)="selected($event)"
-        ></app-destiny-travel>
+        *ngFor="let d of destinationsAPIClient.getAll(); let i=index" 
+        [destiny]="d"
+        [idx]="i + 1"
+        (onClicked)="selected(d)">
+        </app-destiny-travel>
     </div>
 </div>

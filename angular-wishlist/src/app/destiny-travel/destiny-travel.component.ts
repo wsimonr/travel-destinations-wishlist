@@ -10,17 +10,17 @@ export class DestinyTravelComponent implements OnInit {
   @Input() destiny: DestinyTravel;
   @Input('idx') position: number;
   @HostBinding('attr.class') cssClass = "col-md-4";
-  @Output() clicked: EventEmitter<DestinyTravel>;
+  @Output() onClicked: EventEmitter<DestinyTravel>;
 
   constructor() {
-    this.clicked = new EventEmitter();
+    this.onClicked = new EventEmitter();
   }
-  
+
   ngOnInit() {
   }
 
-  go(){
-    this.clicked.emit(this.destiny);
+  go() {
+    this.onClicked.emit(this.destiny);
     return false;
   }
 

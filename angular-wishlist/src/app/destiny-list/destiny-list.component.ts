@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {DestinyTravel} from './../models/destiny-travel.model';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { DestinyTravel } from './../models/destiny-travel.model';
+import { DestinationsApiClient } from '../models/destinations-api-client.model';
 
 @Component({
   selector: 'app-destiny-list',
@@ -9,22 +10,23 @@ import {DestinyTravel} from './../models/destiny-travel.model';
 export class DestinyListComponent implements OnInit {
 
   @Output() onItemAdded: EventEmitter<DestinyTravel>;
-  
-  constructor() {
-    this.destinations = [];
+
+  constructor(private destinationsAPIClient: DestinationsApiClient) {
+
+    this.onItemAdded = new EventEmitter();
   }
 
   ngOnInit() {
   }
 
-  save(name: string, url: string): boolean {
-    this.destinations.push(new DestinyTravel(name, url));
-    return false;
+  added(d: DestinyTravel) {
+    this.destinationsAPIClient.add(d);
+    this.onItemAdded.emit(d);
   }
 
-  selected(d: DestinyTravel){
-    this.destinations.forEach(function(x){x.setSelected(false);});
-    d.setSelected(true);
+  selected(e: DestinyTravel) {
+    this.destinationsAPIClient.getAll().forEach(x => x.setSelected(false));
+    e.setSelected(true);
   }
 
 }
