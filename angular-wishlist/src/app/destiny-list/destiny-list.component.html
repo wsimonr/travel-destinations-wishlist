@@ -18,11 +18,17 @@
     <hr class="mb-5">
 
     <div class="row row-flex">
-        <app-destiny-travel 
-        *ngFor="let d of destinationsAPIClient.getAll(); let i=index" 
-        [destiny]="d"
-        [idx]="i + 1"
-        (onClicked)="selected(d)">
+        <app-destiny-travel *ngFor="let d of destinationsAPIClient.getAll(); let i=index" [destiny]="d" [idx]="i + 1"
+            (onClicked)="selected(d)">
         </app-destiny-travel>
+    </div>
+
+    <hr class="mb-5">
+
+    <div class="row row-flex">
+        <h5>Activity</h5>
+        <ul>
+            <li *ngFor='let u of updates;'>{{u}}</li>
+        </ul>
     </div>
 </div>
