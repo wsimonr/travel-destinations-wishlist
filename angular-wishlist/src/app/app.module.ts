@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { DestinyTravelComponent } from './destiny-travel/destiny-travel.component';
 import { DestinyListComponent } from './destiny-list/destiny-list.component';
 import { DestinyDetailComponent } from './destiny-detail/destiny-detail.component';
+import { DestinationsApiClient} from './models/destinations-api-client.model';
 import { FormDestinyTravelComponent } from './form-destiny-travel/form-destiny-travel.component';
 
 const routes: Routes = [
@@ -29,7 +30,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [
+    DestinationsApiClient
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

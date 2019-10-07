@@ -8,7 +8,7 @@ import {DestinyTravel} from './../models/destiny-travel.model';
 })
 export class DestinyListComponent implements OnInit {
 
-  destinations: DestinyTravel[];
+  @Output() onItemAdded: EventEmitter<DestinyTravel>;
   
   constructor() {
     this.destinations = [];
