@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DestinyTravel } from '../models/destiny-travel.model';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-form-destiny-travel',
@@ -15,14 +15,14 @@ export class FormDestinyTravelComponent implements OnInit {
   constructor(fb: FormBuilder) {
     this.onItemAdded = new EventEmitter();
     this.fg = fb.group({
-      name: [''],
+      name: ['', Validators.required],
       url: ['']
     });
 
-    this.fg.valueChanges.subscribe((form:any) => {
+    this.fg.valueChanges.subscribe((form: any) => {
       console.log('change the form: ', form);
     });
-  } 
+  }
 
   ngOnInit() {
   }
