@@ -3,7 +3,7 @@ import { DestinyTravel } from '../models/destiny-travel.model';
 import { FormGroup, FormBuilder, Validators, FormControl, ValidatorFn } from '@angular/forms';
 import { fromEvent } from 'rxjs';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { ajax, AjaxResponse } from 'rxjs/ajax';
+import { ajax } from 'rxjs/ajax';
 
 @Component({
   selector: 'app-form-destiny-travel',
@@ -15,7 +15,7 @@ export class FormDestinyTravelComponent implements OnInit {
   @Output() onItemAdded: EventEmitter<DestinyTravel>;
   fg: FormGroup;
   minLength = 3;
-  SearchResults: string[];
+  searchResults: string[];
 
   constructor(fb: FormBuilder) {
     this.onItemAdded = new EventEmitter();
@@ -34,25 +34,16 @@ export class FormDestinyTravelComponent implements OnInit {
   }
 
   ngOnInit() {
-
-  }
-
-  ngAfterViewInit() {
-    const elemName = <HTMLInputElement>document.getElementById('name');
+    const elemName = document.getElementById('name') as HTMLInputElement;
     fromEvent(elemName, 'input')
       .pipe(
         map((e: KeyboardEvent) => (e.target as HTMLInputElement).value),
         filter(text => text.length > 2),
-        debounceTime(200),
+        debounceTime(120),
         distinctUntilChanged(),
-        //ToDo: Create the web service
+        // ToFix
         switchMap(() => ajax('/assets/data.json'))
-        //ToFix
-      ).subscribe(AjaxResponse => {
-        console.log(AjaxResponse);
-        console.log(AjaxResponse.response);
-        this.SearchResults = AjaxResponse.response;
-      });
+      ).subscribe(ajaxResponse => this.searchResults = ajaxResponse.response);
   }
 
   save(name: string, url: string): boolean {
@@ -61,7 +52,6 @@ export class FormDestinyTravelComponent implements OnInit {
     return false;
   }
 
-  //ToDo: Use the ng LengthValidator (This is only an expample of personal validator)
   nameValidator(control: FormControl): { [s: string]: boolean } {
     const l = control.value.toString().trim().length;
     if (l > 0 && l < 5) {
@@ -77,7 +67,7 @@ export class FormDestinyTravelComponent implements OnInit {
         return { minNameLength: true };
       }
       return null;
-    }
+    };
   }
 
 }
