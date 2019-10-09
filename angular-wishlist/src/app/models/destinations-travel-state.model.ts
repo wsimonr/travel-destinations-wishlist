@@ -1,4 +1,8 @@
+import {Injectable} from '@angular/core';
 import {Action} from '@ngrx/store';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {DestinyTravel} from './destiny-travel.model';
 
 // STATE
@@ -59,6 +63,19 @@ export function reducerDestinationsTravel(
     }
   }
   return state;
+}
+
+// EFFECTS
+@Injectable()
+export class DestinationsTravelEffects {
+  @Effect()
+  newAdded$: Observable<Action> = this.actions$.pipe(
+    ofType(DestinationsTravelActionTypes.NEW_DESTINY),
+    map((action: NewDestinyAction) => new SelectedFavoriteAction(action.destiny))
+  );
+
+  constructor(private actions$: Actions) {
+  }
 }
 
 
