@@ -3,7 +3,6 @@ import {DestinyTravel} from '../models/destiny-travel.model';
 import {DestinationsApiClient} from '../models/destinations-api-client.model';
 import {Store} from '@ngrx/store';
 import {AppState} from '../app.module';
-import {NewDestinyAction, SelectedFavoriteAction} from '../models/destinations-travel-state.model';
 
 @Component({
   selector: 'app-destiny-list',
@@ -32,12 +31,10 @@ export class DestinyListComponent implements OnInit {
   added(d: DestinyTravel) {
     this.destinationsAPIClient.add(d);
     this.onItemAdded.emit(d);
-    this.store.dispatch(new NewDestinyAction((d)));
   }
 
   selected(e: DestinyTravel) {
     this.destinationsAPIClient.select(e);
-    this.store.dispatch(new SelectedFavoriteAction((e)));
   }
 
 }

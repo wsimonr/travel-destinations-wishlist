@@ -1,19 +1,22 @@
-import { Injectable } from '@angular/core';
-import { DestinyTravel } from './destiny-travel.model';
-import { Subject, BehaviorSubject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {DestinyTravel} from './destiny-travel.model';
+import {Store} from '@ngrx/store';
+import {AppState} from '../app.module';
+import {NewDestinyAction, SelectedFavoriteAction} from './destinations-travel-state.model';
 
 @Injectable()
 export class DestinationsApiClient {
-
   destinations: DestinyTravel[] = [];
-  currrent: Subject<DestinyTravel> = new BehaviorSubject<DestinyTravel>(null);
 
-  constructor() {
-    this.destinations = [];
+  constructor(private store: Store<AppState>) {
+    this.store.select(state => state.destinations)
+      .subscribe(d => {
+        this.destinations = d.items;
+      });
   }
 
   add(d: DestinyTravel) {
-    this.destinations.push(d);
+    this.store.dispatch(new NewDestinyAction((d)));
   }
 
   getAll(): DestinyTravel[] {
@@ -21,13 +24,6 @@ export class DestinationsApiClient {
   }
 
   select(d: DestinyTravel) {
-    this.destinations.forEach(x => x.setSelected(false));
-    d.setSelected(true);
-    this.currrent.next(d);
+    this.store.dispatch(new SelectedFavoriteAction((d)));
   }
-
-  suscribeOnChange(fn) {
-    this.currrent.subscribe(fn);
-  }
-
 }
