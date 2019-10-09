@@ -11,6 +11,7 @@ import {AppState} from '../app.module';
 })
 export class DestinyListComponent implements OnInit {
 
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() onItemAdded: EventEmitter<DestinyTravel>;
   updates: string[];
 
