@@ -1,9 +1,9 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { DestinyTravel } from '../models/destiny-travel.model';
-import { FormGroup, FormBuilder, Validators, FormControl, ValidatorFn } from '@angular/forms';
-import { fromEvent } from 'rxjs';
-import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { ajax } from 'rxjs/ajax';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {DestinyTravel} from '../models/destiny-travel.model';
+import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {fromEvent} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map, switchMap} from 'rxjs/operators';
+import {ajax} from 'rxjs/ajax';
 
 @Component({
   selector: 'app-form-destiny-travel',
@@ -12,6 +12,7 @@ import { ajax } from 'rxjs/ajax';
 })
 export class FormDestinyTravelComponent implements OnInit {
 
+  // tslint:disable-next-line:no-output-on-prefix
   @Output() onItemAdded: EventEmitter<DestinyTravel>;
   fg: FormGroup;
   minLength = 3;
@@ -22,7 +23,7 @@ export class FormDestinyTravelComponent implements OnInit {
     this.fg = fb.group({
       name: ['', Validators.compose([
         Validators.required,
-        this.nameValidator,
+        FormDestinyTravelComponent.nameValidator,
         this.nameValidatorParameterizable(this.minLength)
       ])],
       url: ['']
@@ -31,6 +32,14 @@ export class FormDestinyTravelComponent implements OnInit {
     this.fg.valueChanges.subscribe((form: any) => {
       console.log('change the form: ', form);
     });
+  }
+
+  static nameValidator(control: FormControl): { [s: string]: boolean } {
+    const l = control.value.toString().trim().length;
+    if (l > 0 && l < 5) {
+      return {invalidName: true};
+    }
+    return null;
   }
 
   ngOnInit() {
@@ -50,14 +59,6 @@ export class FormDestinyTravelComponent implements OnInit {
     const d = new DestinyTravel(name, url);
     this.onItemAdded.emit(d);
     return false;
-  }
-
-  nameValidator(control: FormControl): { [s: string]: boolean } {
-    const l = control.value.toString().trim().length;
-    if (l > 0 && l < 5) {
-      return { invalidName: true };
-    }
-    return null;
   }
 
   nameValidatorParameterizable(minLength: number): ValidatorFn {
