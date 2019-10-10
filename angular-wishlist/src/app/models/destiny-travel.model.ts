@@ -1,16 +1,16 @@
 export class DestinyTravel {
-    private selected: boolean;
-    public services: string[];
+  public services: string[];
+  private selected: boolean;
 
-    constructor(public name: string, public u: string) {
-        this.services = ['pool', 'breakfast'];
-    }
+  constructor(public name: string, public u: string) {
+    this.services = ['pool', 'breakfast'];
+  }
 
-    isSelected(): boolean {
-        return this.selected;
-    }
+  isSelected(): boolean {
+    return this.selected;
+  }
 
-    setSelected(s: boolean) {
-        this.selected = s;
-    }
+  setSelected(s: boolean) {
+    this.selected = s;
+  }
 }
