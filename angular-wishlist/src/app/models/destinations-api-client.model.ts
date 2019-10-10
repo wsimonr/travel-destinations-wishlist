@@ -6,21 +6,13 @@ import {NewDestinyAction, SelectedFavoriteAction} from './destinations-travel-st
 
 @Injectable()
 export class DestinationsApiClient {
-  destinations: DestinyTravel[] = [];
 
   constructor(private store: Store<AppState>) {
-    this.store.select(state => state.destinations)
-      .subscribe(d => {
-        this.destinations = d.items;
-      });
+    this.store.select(state => state.destinations);
   }
 
   add(d: DestinyTravel) {
     this.store.dispatch(new NewDestinyAction((d)));
-  }
-
-  getAll(): DestinyTravel[] {
-    return this.destinations;
   }
 
   select(d: DestinyTravel) {

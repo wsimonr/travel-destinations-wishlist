@@ -14,6 +14,7 @@ export class DestinyListComponent implements OnInit {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() onItemAdded: EventEmitter<DestinyTravel>;
   updates: string[];
+  all;
 
   constructor(private destinationsAPIClient: DestinationsApiClient, private store: Store<AppState>) {
     this.onItemAdded = new EventEmitter();
@@ -24,6 +25,7 @@ export class DestinyListComponent implements OnInit {
           this.updates.push(d.name + ' has been chosen.');
         }
       });
+    store.select(state => state.destinations.items).subscribe(items => this.all = items);
   }
 
   ngOnInit() {
@@ -36,6 +38,10 @@ export class DestinyListComponent implements OnInit {
 
   selected(e: DestinyTravel) {
     this.destinationsAPIClient.select(e);
+  }
+
+  getAll() {
+
   }
 
 }

@@ -18,7 +18,7 @@
     <hr class="mb-5">
 
     <div class="row row-flex">
-        <app-destiny-travel *ngFor="let d of destinationsAPIClient.getAll(); let i=index" [destiny]="d" [idx]="i + 1"
+        <app-destiny-travel *ngFor="let d of all; let i=index" [destiny]="d" [idx]="i + 1"
             (onClicked)="selected(d)">
         </app-destiny-travel>
     </div>
