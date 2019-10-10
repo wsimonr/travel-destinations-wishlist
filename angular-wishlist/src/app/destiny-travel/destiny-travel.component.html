@@ -16,6 +16,11 @@
                 </span>
             </li>
         </ul>
+        <div>
+          <a href="#" (click)="voteUp()"><i class="material-icons md-18">thumb_up</i></a>
+          <a href="#" (click)="voteDown()"><i class="material-icons md-18">thumb_down</i></a>
+          {{destiny.votes}}
+        </div>
         <a href="#" class="btn-card" (click)="go()">Go!</a>
         <span *ngIf="destiny.isSelected()">
              <span ngNonBindable>- FAVORITE -</span>

@@ -1,5 +1,9 @@
 import {Component, EventEmitter, HostBinding, Input, OnInit, Output} from '@angular/core';
 import {DestinyTravel} from '../models/destiny-travel.model';
+import {AppState} from '../app.module';
+import {Store} from '@ngrx/store';
+import {VoteDownAction, VoteUpAction} from '../models/destinations-travel-state.model';
+
 
 @Component({
   selector: 'app-destiny-travel',
@@ -14,7 +18,7 @@ export class DestinyTravelComponent implements OnInit {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() onClicked: EventEmitter<DestinyTravel>;
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
     this.onClicked = new EventEmitter();
   }
 
@@ -23,6 +27,16 @@ export class DestinyTravelComponent implements OnInit {
 
   go() {
     this.onClicked.emit(this.destiny);
+    return false;
+  }
+
+  voteUp() {
+    this.store.dispatch(new VoteUpAction(this.destiny));
+    return false;
+  }
+
+  voteDown() {
+    this.store.dispatch(new VoteDownAction(this.destiny));
     return false;
   }
 
