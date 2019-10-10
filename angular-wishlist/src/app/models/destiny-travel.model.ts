@@ -2,7 +2,7 @@ export class DestinyTravel {
   public services: string[];
   private selected: boolean;
 
-  constructor(public name: string, public u: string) {
+  constructor(public name: string, public u: string, public votes: number = 0) {
     this.services = ['pool', 'breakfast'];
   }
 
@@ -12,5 +12,13 @@ export class DestinyTravel {
 
   setSelected(s: boolean) {
     this.selected = s;
+  }
+
+  voteUp() {
+    this.votes++;
+  }
+
+  voteDown() {
+    this.votes--;
   }
 }

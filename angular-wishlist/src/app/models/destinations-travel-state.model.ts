@@ -22,6 +22,8 @@ export const initializeDestinationsTravelState = () => ({
 export enum DestinationsTravelActionTypes {
   NEW_DESTINY = '[Destinations Travel] New',
   FAVORITE_SELECTED = '[Destinations Travel] Favorite',
+  VOTE_UP = '[Destinations Travel] Vote Up',
+  VOTE_DOWN = '[Destinations Travel] Vote Down'
 }
 
 export class NewDestinyAction implements Action {
@@ -38,7 +40,21 @@ export class SelectedFavoriteAction implements Action {
   }
 }
 
-export type DestinationsTravelActions = NewDestinyAction | SelectedFavoriteAction;
+export class VoteUpAction implements Action {
+  type = DestinationsTravelActionTypes.VOTE_UP;
+
+  constructor(public destiny: DestinyTravel) {
+  }
+}
+
+export class VoteDownAction implements Action {
+  type = DestinationsTravelActionTypes.VOTE_DOWN;
+
+  constructor(public destiny: DestinyTravel) {
+  }
+}
+
+export type DestinationsTravelActions = NewDestinyAction | SelectedFavoriteAction | VoteUpAction | VoteDownAction ;
 
 // REDUCERS
 export function reducerDestinationsTravel(
@@ -60,6 +76,14 @@ export function reducerDestinationsTravel(
         ...state,
         favorite: fav
       };
+    }
+    case DestinationsTravelActionTypes.VOTE_UP: {
+      (action as VoteUpAction).destiny.voteUp();
+      return {...state};
+    }
+    case DestinationsTravelActionTypes.VOTE_DOWN: {
+      (action as VoteDownAction).destiny.voteDown();
+      return {...state};
     }
   }
   return state;
