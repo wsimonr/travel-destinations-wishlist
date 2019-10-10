@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {DestinyTravel} from '../models/destiny-travel.model';
+import {DestinyTravel} from '../../models/destiny-travel.model';
 import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {fromEvent} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map, switchMap} from 'rxjs/operators';

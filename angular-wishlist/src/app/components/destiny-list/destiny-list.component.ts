@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {DestinyTravel} from '../models/destiny-travel.model';
-import {DestinationsApiClient} from '../models/destinations-api-client.model';
+import {DestinyTravel} from '../../models/destiny-travel.model';
+import {DestinationsApiClient} from '../../models/destinations-api-client.model';
 import {Store} from '@ngrx/store';
-import {AppState} from '../app.module';
+import {AppState} from '../../app.module';
 
 @Component({
   selector: 'app-destiny-list',

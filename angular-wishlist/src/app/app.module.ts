@@ -6,11 +6,11 @@ import {ActionReducerMap, StoreModule as NgRxStoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {AppComponent} from './app.component';
-import {DestinyTravelComponent} from './destiny-travel/destiny-travel.component';
-import {DestinyListComponent} from './destiny-list/destiny-list.component';
-import {DestinyDetailComponent} from './destiny-detail/destiny-detail.component';
+import {DestinyTravelComponent} from './components/destiny-travel/destiny-travel.component';
+import {DestinyListComponent} from './components/destiny-list/destiny-list.component';
+import {DestinyDetailComponent} from './components/destiny-detail/destiny-detail.component';
 import {DestinationsApiClient} from './models/destinations-api-client.model';
-import {FormDestinyTravelComponent} from './form-destiny-travel/form-destiny-travel.component';
+import {FormDestinyTravelComponent} from './components/form-destiny-travel/form-destiny-travel.component';
 import {
   DestinationsTravelEffects,
   DestinationsTravelState,

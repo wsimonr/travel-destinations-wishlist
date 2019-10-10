@@ -1,8 +1,8 @@
 import {Component, EventEmitter, HostBinding, Input, OnInit, Output} from '@angular/core';
-import {DestinyTravel} from '../models/destiny-travel.model';
-import {AppState} from '../app.module';
+import {DestinyTravel} from '../../models/destiny-travel.model';
+import {AppState} from '../../app.module';
 import {Store} from '@ngrx/store';
-import {VoteDownAction, VoteUpAction} from '../models/destinations-travel-state.model';
+import {VoteDownAction, VoteUpAction} from '../../models/destinations-travel-state.model';
 
 
 @Component({
