@@ -21,6 +21,17 @@ import {LoginComponent} from './components/login/login/login.component';
 import {ProtectedComponent} from './components/protected/protected/protected.component';
 import {UserLoggedInGuard} from './guards/user-logged-in/user-logged-in.guard';
 import {AuthService} from './services/auth.service';
+import {FlightsComponent} from './components/flights/flights-component/flights-component';
+import {FlightsMainComponent} from './components/flights/flights-main-component/flights-main-component';
+import {FlightsMoreInfoComponent} from './components/flights/flights-more-info-component/flights-more-info-component';
+import {FlightsDetailComponent} from './components/flights/flights-detail-component/flights-detail-component';
+
+export const childrenRoutesFlights: Routes = [
+  {path: '', redirectTo: 'main', pathMatch: 'full'},
+  {path: 'main', component: FlightsMainComponent},
+  {path: 'mas-info', component: FlightsMoreInfoComponent},
+  {path: ':id', component: FlightsDetailComponent},
+];
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -31,6 +42,12 @@ const routes: Routes = [
     path: 'protected',
     component: ProtectedComponent,
     canActivate: [UserLoggedInGuard]
+  },
+  {
+    path: 'flights',
+    component: FlightsComponent,
+    canActivate: [UserLoggedInGuard],
+    children: childrenRoutesFlights
   }
 ];
 
@@ -57,7 +74,11 @@ const reducersInitialState = {
     DestinyDetailComponent,
     FormDestinyTravelComponent,
     LoginComponent,
-    ProtectedComponent
+    ProtectedComponent,
+    FlightsComponent,
+    FlightsMainComponent,
+    FlightsMoreInfoComponent,
+    FlightsDetailComponent
   ],
   imports: [
     BrowserModule,
