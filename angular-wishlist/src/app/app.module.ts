@@ -17,12 +17,21 @@ import {
   initializeDestinationsTravelState,
   reducerDestinationsTravel
 } from './models/destinations-travel-state.model';
-
+import {LoginComponent} from './components/login/login/login.component';
+import {ProtectedComponent} from './components/protected/protected/protected.component';
+import {UserLoggedInGuard} from './guards/user-logged-in/user-logged-in.guard';
+import {AuthService} from './services/auth.service';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: DestinyListComponent},
-  {path: 'destiny', component: DestinyDetailComponent}
+  {path: 'destiny/:id', component: DestinyDetailComponent},
+  {path: 'login', component: LoginComponent},
+  {
+    path: 'protected',
+    component: ProtectedComponent,
+    canActivate: [UserLoggedInGuard]
+  }
 ];
 
 // redux init
@@ -47,6 +56,8 @@ const reducersInitialState = {
     DestinyListComponent,
     DestinyDetailComponent,
     FormDestinyTravelComponent,
+    LoginComponent,
+    ProtectedComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +69,9 @@ const reducersInitialState = {
     StoreDevtoolsModule.instrument()
   ],
   providers: [
-    DestinationsApiClient
+    AuthService,
+    DestinationsApiClient,
+    UserLoggedInGuard
   ],
   bootstrap: [AppComponent]
 })
