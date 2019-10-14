@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { ReservationsRoutingModule } from './reservations-routing.module';
-import { ReservationsListComponent } from './reservations-list/reservations-list.component';
-import { ReservationsDetailComponent } from './reservations-detail/reservations-detail.component';
+import {ReservationsRoutingModule} from './reservations-routing.module';
+import {ReservationsListComponent} from './reservations-list/reservations-list.component';
+import {ReservationsDetailComponent} from './reservations-detail/reservations-detail.component';
+import {ReservationsApiClientService} from './reservations-api-client.service';
 
 
 @NgModule({
@@ -11,6 +12,10 @@ import { ReservationsDetailComponent } from './reservations-detail/reservations-
   imports: [
     CommonModule,
     ReservationsRoutingModule
+  ],
+  providers: [
+    ReservationsApiClientService
   ]
 })
-export class ReservationsModule { }
+export class ReservationsModule {
+}
