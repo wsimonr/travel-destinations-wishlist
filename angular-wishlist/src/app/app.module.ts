@@ -9,7 +9,6 @@ import {AppComponent} from './app.component';
 import {DestinyTravelComponent} from './components/destiny-travel/destiny-travel.component';
 import {DestinyListComponent} from './components/destiny-list/destiny-list.component';
 import {DestinyDetailComponent} from './components/destiny-detail/destiny-detail.component';
-import {DestinationsApiClient} from './models/destinations-api-client.model';
 import {FormDestinyTravelComponent} from './components/form-destiny-travel/form-destiny-travel.component';
 import {
   DestinationsTravelEffects,
@@ -93,7 +92,6 @@ const reducersInitialState = {
   ],
   providers: [
     AuthService,
-    DestinationsApiClient,
     UserLoggedInGuard
   ],
   bootstrap: [AppComponent]

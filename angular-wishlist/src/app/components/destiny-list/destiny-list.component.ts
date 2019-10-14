@@ -7,7 +7,8 @@ import {AppState} from '../../app.module';
 @Component({
   selector: 'app-destiny-list',
   templateUrl: './destiny-list.component.html',
-  styleUrls: ['./destiny-list.component.css']
+  styleUrls: ['./destiny-list.component.css'],
+  providers: [DestinationsApiClient]
 })
 export class DestinyListComponent implements OnInit {
 
