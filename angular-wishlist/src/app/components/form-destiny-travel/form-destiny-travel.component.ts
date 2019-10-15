@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Inject, OnInit, Output} from '@angular/core';
 import {DestinyTravel} from '../../models/destiny-travel.model';
 import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {fromEvent} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map, switchMap} from 'rxjs/operators';
 import {ajax} from 'rxjs/ajax';
+import {APP_CONFIG, AppConfig} from '../../app.module';
 
 @Component({
   selector: 'app-form-destiny-travel',
@@ -18,7 +19,7 @@ export class FormDestinyTravelComponent implements OnInit {
   minLength = 3;
   searchResults: string[];
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, @Inject(forwardRef(() => APP_CONFIG)) private config: AppConfig ) {
     this.onItemAdded = new EventEmitter();
     this.fg = fb.group({
       name: ['', Validators.compose([
@@ -50,10 +51,9 @@ export class FormDestinyTravelComponent implements OnInit {
         filter(text => text.length > 2),
         debounceTime(120),
         distinctUntilChanged(),
-        // ToFix
-        switchMap(() => ajax('/assets/data.json'))
+        switchMap((text: string) => ajax(this.config.apiEndpoint + '/cities?q=' + text))
       ).subscribe(ajaxResponse => this.searchResults = ajaxResponse.response);
-  }
+}
 
   save(name: string, url: string): boolean {
     const d = new DestinyTravel(name, url);
