@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActionReducerMap, StoreModule as NgRxStoreModule} from '@ngrx/store';
@@ -26,6 +26,7 @@ import {FlightsMoreInfoComponent} from './components/flights/flights-more-info-c
 import {FlightsDetailComponent} from './components/flights/flights-detail-component/flights-detail-component';
 import { ReservationsModule } from './reservations/reservations.module';
 
+// init routing
 export const childrenRoutesFlights: Routes = [
   {path: '', redirectTo: 'main', pathMatch: 'full'},
   {path: 'main', component: FlightsMainComponent},
@@ -50,6 +51,17 @@ const routes: Routes = [
     children: childrenRoutesFlights
   }
 ];
+// end init routing
+
+// app config
+export interface AppConfig {
+  apiEndpoint: string;
+}
+const APP_CONFIG_VALUE: AppConfig = {
+  apiEndpoint: 'http://localhost:3000'
+};
+export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');
+// fin app config
 
 // redux init
 export interface AppState {
@@ -92,7 +104,8 @@ const reducersInitialState = {
   ],
   providers: [
     AuthService,
-    UserLoggedInGuard
+    UserLoggedInGuard,
+    { provide: APP_CONFIG, useValue: APP_CONFIG_VALUE }
   ],
   bootstrap: [AppComponent]
 })
