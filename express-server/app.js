@@ -11,6 +11,6 @@ let myDestinations = [];
 app.get("/my", (req, res, next) => res.json(myDestinations));
 app.post("/my", (req, res, next) => {
     console.log(req.body);
-    myDestinations = req.body;
+    myDestinations.push(req.body.new);
     res.json(myDestinations);
 });

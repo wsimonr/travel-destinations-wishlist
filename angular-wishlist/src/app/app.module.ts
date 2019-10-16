@@ -1,8 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {InjectionToken, NgModule} from '@angular/core';
+import {APP_INITIALIZER, Injectable, InjectionToken, NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ActionReducerMap, StoreModule as NgRxStoreModule} from '@ngrx/store';
+import {HttpClient, HttpClientModule, HttpHeaders, HttpRequest} from '@angular/common/http';
+import {ActionReducerMap, Store, StoreModule as NgRxStoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {AppComponent} from './app.component';
@@ -13,7 +14,7 @@ import {FormDestinyTravelComponent} from './components/form-destiny-travel/form-
 import {
   DestinationsTravelEffects,
   DestinationsTravelState,
-  initializeDestinationsTravelState,
+  initializeDestinationsTravelState, InitMyDataAction,
   reducerDestinationsTravel
 } from './models/destinations-travel-state.model';
 import {LoginComponent} from './components/login/login/login.component';
@@ -63,6 +64,23 @@ const APP_CONFIG_VALUE: AppConfig = {
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 // fin app config
 
+// app init
+export function init_app(appLoadService: AppLoadService): () => Promise<any>  {
+  return () => appLoadService.intializeDestinosViajesState();
+}
+
+@Injectable()
+class AppLoadService {
+  constructor(private store: Store<AppState>, private http: HttpClient) { }
+  async intializeDestinosViajesState(): Promise<any> {
+    const headers: HttpHeaders = new HttpHeaders({'X-API-TOKEN': 'token-security'});
+    const req = new HttpRequest('GET', APP_CONFIG_VALUE.apiEndpoint + '/my', { headers: headers });
+    const response: any = await this.http.request(req).toPromise();
+    this.store.dispatch(new InitMyDataAction(response.body));
+  }
+}
+// fin app init
+
 // redux init
 export interface AppState {
   destinations: DestinationsTravelState;
@@ -95,6 +113,7 @@ const reducersInitialState = {
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     NgRxStoreModule.forRoot(reducers, {initialState: reducersInitialState}),
@@ -105,7 +124,9 @@ const reducersInitialState = {
   providers: [
     AuthService,
     UserLoggedInGuard,
-    { provide: APP_CONFIG, useValue: APP_CONFIG_VALUE }
+    { provide: APP_CONFIG, useValue: APP_CONFIG_VALUE },
+    AppLoadService,
+    { provide: APP_INITIALIZER, useFactory: init_app, deps: [AppLoadService], multi: true }
   ],
   bootstrap: [AppComponent]
 })

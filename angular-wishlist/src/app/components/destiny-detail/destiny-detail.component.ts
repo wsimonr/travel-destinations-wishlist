@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DestinationsApiClient} from '../../models/destinations-api-client.model';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-destiny-detail',
@@ -9,7 +10,7 @@ import {DestinationsApiClient} from '../../models/destinations-api-client.model'
 })
 export class DestinyDetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private destinationsApiClient: DestinationsApiClient) { }
 
   ngOnInit() {
   }

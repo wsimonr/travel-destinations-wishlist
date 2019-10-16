@@ -23,7 +23,8 @@ export enum DestinationsTravelActionTypes {
   NEW_DESTINY = '[Destinations Travel] New',
   FAVORITE_SELECTED = '[Destinations Travel] Favorite',
   VOTE_UP = '[Destinations Travel] Vote Up',
-  VOTE_DOWN = '[Destinations Travel] Vote Down'
+  VOTE_DOWN = '[Destinations Travel] Vote Down',
+  INIT_MY_DATA = '[Destinations Travel] Init My Data'
 }
 
 export class NewDestinyAction implements Action {
@@ -54,7 +55,13 @@ export class VoteDownAction implements Action {
   }
 }
 
-export type DestinationsTravelActions = NewDestinyAction | SelectedFavoriteAction | VoteUpAction | VoteDownAction ;
+export class InitMyDataAction implements Action {
+  type = DestinationsTravelActionTypes.INIT_MY_DATA;
+  constructor(public destiny: string[]) {}
+}
+
+export type DestinationsTravelActions = NewDestinyAction | SelectedFavoriteAction | VoteUpAction | VoteDownAction |
+  InitMyDataAction;
 
 // REDUCERS
 export function reducerDestinationsTravel(
@@ -62,6 +69,12 @@ export function reducerDestinationsTravel(
   action: DestinationsTravelActions
 ): DestinationsTravelState {
   switch (action.type) {
+    case DestinationsTravelActionTypes.INIT_MY_DATA: {
+      return {
+        ...state,
+        items: (action as InitMyDataAction).destiny.map((d) => new DestinyTravel(d, ''))
+      };
+    }
     case DestinationsTravelActionTypes.NEW_DESTINY: {
       return {
         ...state,
