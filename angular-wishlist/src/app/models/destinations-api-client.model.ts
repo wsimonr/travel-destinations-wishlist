@@ -2,7 +2,7 @@ import {forwardRef, Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpClientModule, HttpHeaders, HttpRequest, HttpResponse} from '@angular/common/http';
 import {DestinyTravel} from './destiny-travel.model';
 import {Store} from '@ngrx/store';
-import {APP_CONFIG, AppConfig, AppState} from '../app.module';
+import {APP_CONFIG, AppConfig, AppState, db} from '../app.module';
 import {NewDestinyAction, SelectedFavoriteAction} from './destinations-travel-state.model';
 
 @Injectable()
@@ -22,10 +22,14 @@ export class DestinationsApiClient {
       'POST',
       this.config.apiEndpoint + '/my',
       {new: d.name},
-      {headers: headers});
+      {headers});
     this.http.request(req).subscribe((data: HttpResponse<{}>) => {
       if (data.status === 200) {
         this.store.dispatch(new NewDestinyAction(d));
+        const myDb = db;
+        myDb.destinations.add(d);
+        console.log('all db destinations!');
+        myDb.destinations.toArray().then(destinations => console.log(destinations));
       }
     });
   }

@@ -26,6 +26,8 @@ import {FlightsMainComponent} from './components/flights/flights-main-component/
 import {FlightsMoreInfoComponent} from './components/flights/flights-more-info-component/flights-more-info-component';
 import {FlightsDetailComponent} from './components/flights/flights-detail-component/flights-detail-component';
 import { ReservationsModule } from './reservations/reservations.module';
+import Dexie from 'dexie';
+import {DestinyTravel} from "./models/destiny-travel.model";
 
 // init routing
 export const childrenRoutesFlights: Routes = [
@@ -74,7 +76,7 @@ class AppLoadService {
   constructor(private store: Store<AppState>, private http: HttpClient) { }
   async intializeDestinosViajesState(): Promise<any> {
     const headers: HttpHeaders = new HttpHeaders({'X-API-TOKEN': 'token-security'});
-    const req = new HttpRequest('GET', APP_CONFIG_VALUE.apiEndpoint + '/my', { headers: headers });
+    const req = new HttpRequest('GET', APP_CONFIG_VALUE.apiEndpoint + '/my', { headers });
     const response: any = await this.http.request(req).toPromise();
     this.store.dispatch(new InitMyDataAction(response.body));
   }
@@ -93,8 +95,33 @@ const reducers: ActionReducerMap<AppState> = {
 const reducersInitialState = {
   destinations: initializeDestinationsTravelState()
 };
-
 // redux fin init
+
+// dexie db
+export class Translation {
+  constructor(public id: number, public lang: string, public key: string, public value: string) {}
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MyDatabase extends Dexie {
+  destinations: Dexie.Table<DestinyTravel, number>;
+  translations: Dexie.Table<Translation, number>;
+  constructor() {
+    super('MyDatabase');
+    this.version(1).stores({
+      destinations: '++id, nombre, imagenUrl'
+    });
+    this.version(2).stores({
+      destinations: '++id, nombre, imagenUrl',
+      translations: '++id, lang, key, value'
+    });
+  }
+}
+
+export const db = new MyDatabase();
+// fin dexie db
 
 @NgModule({
   declarations: [
