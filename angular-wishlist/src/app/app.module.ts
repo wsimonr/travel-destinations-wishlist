@@ -25,9 +25,12 @@ import {FlightsComponent} from './components/flights/flights-component/flights-c
 import {FlightsMainComponent} from './components/flights/flights-main-component/flights-main-component';
 import {FlightsMoreInfoComponent} from './components/flights/flights-more-info-component/flights-more-info-component';
 import {FlightsDetailComponent} from './components/flights/flights-detail-component/flights-detail-component';
-import { ReservationsModule } from './reservations/reservations.module';
+import {ReservationsModule} from './reservations/reservations.module';
 import Dexie from 'dexie';
-import {DestinyTravel} from "./models/destiny-travel.model";
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {DestinyTravel} from './models/destiny-travel.model';
+import {flatMap} from 'rxjs/operators';
+import {from, Observable} from 'rxjs';
 
 // init routing
 export const childrenRoutesFlights: Routes = [
@@ -60,6 +63,7 @@ const routes: Routes = [
 export interface AppConfig {
   apiEndpoint: string;
 }
+
 const APP_CONFIG_VALUE: AppConfig = {
   apiEndpoint: 'http://localhost:3000'
 };
@@ -67,20 +71,23 @@ export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 // fin app config
 
 // app init
-export function init_app(appLoadService: AppLoadService): () => Promise<any>  {
+export function init_app(appLoadService: AppLoadService): () => Promise<any> {
   return () => appLoadService.intializeDestinosViajesState();
 }
 
 @Injectable()
 class AppLoadService {
-  constructor(private store: Store<AppState>, private http: HttpClient) { }
+  constructor(private store: Store<AppState>, private http: HttpClient) {
+  }
+
   async intializeDestinosViajesState(): Promise<any> {
     const headers: HttpHeaders = new HttpHeaders({'X-API-TOKEN': 'token-security'});
-    const req = new HttpRequest('GET', APP_CONFIG_VALUE.apiEndpoint + '/my', { headers });
+    const req = new HttpRequest('GET', APP_CONFIG_VALUE.apiEndpoint + '/my', {headers});
     const response: any = await this.http.request(req).toPromise();
     this.store.dispatch(new InitMyDataAction(response.body));
   }
 }
+
 // fin app init
 
 // redux init
@@ -99,7 +106,8 @@ const reducersInitialState = {
 
 // dexie db
 export class Translation {
-  constructor(public id: number, public lang: string, public key: string, public value: string) {}
+  constructor(public id: number, public lang: string, public key: string, public value: string) {
+  }
 }
 
 @Injectable({
@@ -108,13 +116,14 @@ export class Translation {
 export class MyDatabase extends Dexie {
   destinations: Dexie.Table<DestinyTravel, number>;
   translations: Dexie.Table<Translation, number>;
+
   constructor() {
     super('MyDatabase');
     this.version(1).stores({
-      destinations: '++id, nombre, imagenUrl'
+      destinations: '++id, name, imagenUrl'
     });
     this.version(2).stores({
-      destinations: '++id, nombre, imagenUrl',
+      destinations: '++id, name, imagenUrl',
       translations: '++id, lang, key, value'
     });
   }
@@ -122,6 +131,47 @@ export class MyDatabase extends Dexie {
 
 export const db = new MyDatabase();
 // fin dexie db
+
+// i18n ini
+class TranslationLoader implements TranslateLoader {
+  constructor(private http: HttpClient) {
+  }
+
+  getTranslation(lang: string): Observable<any> {
+    const promise = db.translations
+      .where('lang')
+      .equals(lang)
+      .toArray()
+      .then(results => {
+        if (results.length === 0) {
+          return this.http
+            .get<Translation[]>(APP_CONFIG_VALUE.apiEndpoint + '/api/translation?lang=' + lang)
+            .toPromise()
+            .then(apiResults => {
+              db.translations.bulkAdd(apiResults);
+              return apiResults;
+            });
+        }
+        return results;
+      }).then((translations) => {
+        console.log('loaded translations:');
+        console.log(translations);
+        return translations;
+      }).then((translations) => {
+        return translations.map((t) => ({[t.key]: t.value}));
+      });
+    /*
+    return from(promise).pipe(
+      map((translations) => translations.map((t) => { [t.key]: t.value}))
+    );
+    */
+    return from(promise).pipe(flatMap((elems) => from(elems)));
+  }
+}
+
+function HttpLoaderFactory(http: HttpClient) {
+  return new TranslationLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -146,14 +196,21 @@ export const db = new MyDatabase();
     NgRxStoreModule.forRoot(reducers, {initialState: reducersInitialState}),
     EffectsModule.forRoot([DestinationsTravelEffects]),
     StoreDevtoolsModule.instrument(),
-    ReservationsModule
+    ReservationsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (HttpLoaderFactory),
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [
     AuthService,
     UserLoggedInGuard,
-    { provide: APP_CONFIG, useValue: APP_CONFIG_VALUE },
+    {provide: APP_CONFIG, useValue: APP_CONFIG_VALUE},
     AppLoadService,
-    { provide: APP_INITIALIZER, useFactory: init_app, deps: [AppLoadService], multi: true }
+    {provide: APP_INITIALIZER, useFactory: init_app, deps: [AppLoadService], multi: true}
   ],
   bootstrap: [AppComponent]
 })

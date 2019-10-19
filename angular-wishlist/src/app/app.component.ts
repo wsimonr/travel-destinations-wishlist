@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +11,14 @@ export class AppComponent {
   title = 'WishList of Travel Destinations';
   time = new Observable(observer => {
     setInterval(() => observer.next(new Date().toString()), 1000);
+    return null;
   });
+
+  constructor(private translate: TranslateService) {
+    console.log('***************** get translation');
+    translate.getTranslation('en').subscribe(x => console.log('x: ' + JSON.stringify(x)));
+    translate.setDefaultLang('es');
+  }
 }
+
+
