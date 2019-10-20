@@ -153,16 +153,16 @@ class TranslationLoader implements TranslateLoader {
             });
         }
         return results;
-      }).then((translations) => {
+      }).then((trans) => {
         console.log('loaded translations:');
-        console.log(translations);
-        return translations;
-      }).then((translations) => {
-        return translations.map((t) => ({[t.key]: t.value}));
+        console.log(trans);
+        return trans;
+      }).then((trans) => {
+        return trans.map((t) => ({[t.key]: t.value}));
       });
     /*
     return from(promise).pipe(
-      map((translations) => translations.map((t) => { [t.key]: t.value}))
+      map((trans) => trans.map((t) => { [t.key]: t.value}))
     );
     */
     return from(promise).pipe(flatMap((elems) => from(elems)));
@@ -203,7 +203,7 @@ function HttpLoaderFactory(http: HttpClient) {
         useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
-    }),
+    })
   ],
   providers: [
     AuthService,
