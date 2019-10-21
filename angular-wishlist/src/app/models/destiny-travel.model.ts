@@ -1,8 +1,11 @@
-export class DestinyTravel {
-  public services: string[];
-  private selected: boolean;
+import {v4 as uuid} from 'uuid';
 
-  constructor(public name: string, public u: string, public votes: number = 0) {
+export class DestinyTravel {
+  services: string[];
+  selected: boolean;
+  id = uuid();
+  public votes = 0;
+  constructor(public name: string, public imagenUrl: string) {
     this.services = ['pool', 'breakfast'];
   }
 
