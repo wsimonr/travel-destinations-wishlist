@@ -1,5 +1,5 @@
 import {forwardRef, Inject, Injectable} from '@angular/core';
-import {HttpClient, HttpClientModule, HttpHeaders, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpRequest, HttpResponse} from '@angular/common/http';
 import {DestinyTravel} from './destiny-travel.model';
 import {Store} from '@ngrx/store';
 import {APP_CONFIG, AppConfig, AppState, db} from '../app.module';
@@ -32,6 +32,11 @@ export class DestinationsApiClient {
         myDb.destinations.toArray().then(destinations => console.log(destinations));
       }
     });
+  }
+
+  // tslint:disable-next-line:ban-types
+  getById(id: String): DestinyTravel {
+    return this.destinations.filter(d => d.id.toString() === id)[0];
   }
 
   getAll(): DestinyTravel[] {

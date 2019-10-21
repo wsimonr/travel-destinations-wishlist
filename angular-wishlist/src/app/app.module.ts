@@ -32,6 +32,7 @@ import {DestinyTravel} from './models/destiny-travel.model';
 import {flatMap} from 'rxjs/operators';
 import {from, Observable} from 'rxjs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgxMapboxGLModule} from 'ngx-mapbox-gl';
 
 // init routing
 export const childrenRoutesFlights: Routes = [
@@ -205,7 +206,8 @@ function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxMapboxGLModule
   ],
   providers: [
     AuthService,
