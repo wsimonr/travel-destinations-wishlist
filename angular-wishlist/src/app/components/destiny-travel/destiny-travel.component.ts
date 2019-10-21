@@ -3,12 +3,28 @@ import {DestinyTravel} from '../../models/destiny-travel.model';
 import {AppState} from '../../app.module';
 import {Store} from '@ngrx/store';
 import {VoteDownAction, VoteUpAction} from '../../models/destinations-travel-state.model';
-
+import {trigger, state, style, transition, animate} from '@angular/animations';
 
 @Component({
   selector: 'app-destiny-travel',
   templateUrl: './destiny-travel.component.html',
-  styleUrls: ['./destiny-travel.component.css']
+  styleUrls: ['./destiny-travel.component.css'],
+  animations: [
+    trigger('isFavorite', [
+      state('favoriteState', style({
+        background: 'PaleTurquoise'
+      })),
+      state('noFavoriteState', style({
+        backgroundColor: 'WhiteSmoke'
+      })),
+      transition('noFavoriteState => favoriteState', [
+        animate('3s')
+      ]),
+      transition('favoriteState => noFavoriteState', [
+        animate('1s')
+      ]),
+    ])
+  ]
 })
 export class DestinyTravelComponent implements OnInit {
   @Input() destiny: DestinyTravel;

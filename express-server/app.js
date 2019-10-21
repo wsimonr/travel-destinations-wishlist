@@ -1,4 +1,4 @@
-const express = require("express"), cors = require("cors"), csp = require('express-csp-header');
+const express = require("express"), cors = require("cors");
 const app = express();
 app.use(express.json());
 app.use(cors());

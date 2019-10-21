@@ -31,6 +31,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {DestinyTravel} from './models/destiny-travel.model';
 import {flatMap} from 'rxjs/operators';
 import {from, Observable} from 'rxjs';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // init routing
 export const childrenRoutesFlights: Routes = [
@@ -203,7 +204,8 @@ function HttpLoaderFactory(http: HttpClient) {
         useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [
     AuthService,
