@@ -17,14 +17,22 @@
       </li>
     </ul>
     <div>
-      <a href="#" (click)="voteUp()"><i class="material-icons md-18">thumb_up</i></a>
-      <a href="#" (click)="voteDown()"><i class="material-icons md-18">thumb_down</i></a>
+      <a href="#" (click)="voteUp()" appClickTracker data-tracker-tags="destination_vote_up destinations_list_item">
+        <i class="material-icons md-18">thumb_up</i>
+      </a>
+      <a href="#" (click)="voteDown()" appClickTracker data-tracker-tags="destination_vote_down destinations_list_item">
+        <i class="material-icons md-18">thumb_down</i>
+      </a>
+      &nbsp;
       {{destiny.votes}}
     </div>
-    <a href="#" class="btn-card" (click)="go()">Go!</a>
+    <a href="#" class="btn-card" (click)="go()"
+       appClickTracker data-tracker-tags="destination_select_prefered destinations_list_item">
+      Go!
+    </a>
     <span *ngIf="destiny.isSelected()">
              <span ngNonBindable>- FAVORITE -</span>
         </span>
-    <a [routerLink]="['/destiny', destiny.id]">See Detail</a>
+    <a [routerLink]="['/destiny', destiny.id]">See!</a>
   </div>
 </div> 

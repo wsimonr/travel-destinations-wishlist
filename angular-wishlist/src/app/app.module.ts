@@ -34,6 +34,7 @@ import {from, Observable} from 'rxjs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxMapboxGLModule} from 'ngx-mapbox-gl';
 import { SpymeDirective } from './spyme.directive';
+import { ClickTrackerDirective } from './click-tracker.directive';
 
 // init routing
 export const childrenRoutesFlights: Routes = [
@@ -189,7 +190,8 @@ function HttpLoaderFactory(http: HttpClient) {
     FlightsMainComponent,
     FlightsMoreInfoComponent,
     FlightsDetailComponent,
-    SpymeDirective
+    SpymeDirective,
+    ClickTrackerDirective
   ],
   imports: [
     BrowserModule,
