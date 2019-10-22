@@ -40,9 +40,4 @@ export class DestinyListComponent implements OnInit {
   selected(e: DestinyTravel) {
     this.destinationsAPIClient.select(e);
   }
-
-  getAll() {
-
-  }
-
 }

@@ -18,8 +18,12 @@
     <hr class="mb-5">
 
     <div class="row row-flex">
-        <app-destiny-travel *ngFor="let d of all; let i=index" [destiny]="d" [idx]="i + 1"
-            (onClicked)="selected(d)">
+        <app-destiny-travel *ngFor="let d of all; let i=index"
+                            [destiny]="d"
+                            [idx]="i+1"
+                            (onClicked)="selected(d)"
+                            appSpyme
+                            >
         </app-destiny-travel>
     </div>
 

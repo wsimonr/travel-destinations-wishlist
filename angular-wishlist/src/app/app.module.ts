@@ -33,6 +33,7 @@ import {flatMap} from 'rxjs/operators';
 import {from, Observable} from 'rxjs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxMapboxGLModule} from 'ngx-mapbox-gl';
+import { SpymeDirective } from './spyme.directive';
 
 // init routing
 export const childrenRoutesFlights: Routes = [
@@ -187,7 +188,8 @@ function HttpLoaderFactory(http: HttpClient) {
     FlightsComponent,
     FlightsMainComponent,
     FlightsMoreInfoComponent,
-    FlightsDetailComponent
+    FlightsDetailComponent,
+    SpymeDirective
   ],
   imports: [
     BrowserModule,
