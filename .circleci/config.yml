@@ -1,0 +1,18 @@
+version: 2 # use CircleCI 2
+jobs: # a collection of steps
+  build: # runs not using Workflows must have a `build` job as entry point
+    working_directory: ~/myapp # directory where steps will run
+    docker: # run the steps with Docker
+    - image: circleci/node:10-browsers # ...with this image as the primary container; this is where all `steps` will run
+    steps: # a collection of executable commands
+    - checkout: # special step to check out source code to working directory
+        path: ~/myapp
+    - restore_cache: # special step to restore the dependency cache
+        # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+        key: angular-wishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
+    - run: npm install
+    - save_cache: # special step to save the dependency cache
+        key: angular-wishlist-{{ .Branch }}-{{ checksum "package-lock.json" }}
+        paths:
+        - "node_modules"
+    - run: npm run test -- --progress=false --watch=false --browsers=ChromeHeadlessCI
